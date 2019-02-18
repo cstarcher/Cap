@@ -72,8 +72,13 @@ public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
         if (!production) {
             registry.addResourceHandler("/node_modules/**").addResourceLocations("file:node_modules/");
         }
+
         registry.addResourceHandler("/**").addResourceLocations(path + "/");
         registry.addResourceHandler("/public/**").addResourceLocations("file:public/");
+
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+
         registry.setOrder(Integer.MAX_VALUE - 2);
     }
 

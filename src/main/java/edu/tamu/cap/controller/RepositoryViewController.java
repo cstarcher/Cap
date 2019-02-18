@@ -21,6 +21,7 @@ import edu.tamu.cap.service.RepositoryViewType;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/repository-view")
@@ -32,12 +33,13 @@ public class RepositoryViewController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("hasRole('USER')")
-    @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
-    public ApiResponse createRepositoryView(@RequestBody @WeaverValidatedModel RepositoryView repositoryView) {
-        logger.info("Creating Repository View:  " + repositoryView.getName() + " with schema " + repositoryView.getSchemas());
-        return new ApiResponse(SUCCESS, repositoryViewRepo.create(repositoryView));
-    }
+  @PreAuthorize("hasRole('USER')")
+  @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
+  @ApiOperation(value = "Creates a new Repository View.",response = RepositoryView.class)
+  public ApiResponse createRepositoryView(@RequestBody @WeaverValidatedModel RepositoryView repositoryView) {
+      logger.info("Creating Repository View:  " + repositoryView.getName() + " with schema " + repositoryView.getSchemas());
+      return new ApiResponse(SUCCESS, repositoryViewRepo.create(repositoryView));
+  }
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@PreAuthorize("hasRole('USER')")
