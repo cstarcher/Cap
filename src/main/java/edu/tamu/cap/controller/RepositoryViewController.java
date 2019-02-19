@@ -42,7 +42,8 @@ public class RepositoryViewController {
   }
 	
 	@RequestMapping(method = RequestMethod.GET)
-	@PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasRole('USER')")
+  @ApiOperation(value = "Retreives all Repository Views.")
 	public ApiResponse allRepositoryViews() {
 		return new ApiResponse(SUCCESS, repositoryViewRepo.findAll());
 	}
@@ -74,6 +75,11 @@ public class RepositoryViewController {
 	@PreAuthorize("hasRole('USER')")
 	public ApiResponse getRepositoryViewTypes() {
 		return new ApiResponse(SUCCESS, RepositoryViewType.getValues());
-	}
+  }
+  
+  private class CreateRepositoryViewApiResponse {
+    private edu.tamu.weaver.response.ApiResponse.Meta meta;
+    private java.util.HashMap<java.lang.String,RepositoryView> payload;
+  }
 	
 }
