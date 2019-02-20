@@ -35,7 +35,7 @@ public class RepositoryViewController {
 	@RequestMapping(method = RequestMethod.POST)
   @PreAuthorize("hasRole('USER')")
   @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
-  @ApiOperation(value = "Creates a new Repository View.",response = RepositoryView.class)
+  @ApiOperation(value = "Creates a new Repository View.")
   public ApiResponse createRepositoryView(@RequestBody @WeaverValidatedModel RepositoryView repositoryView) {
       logger.info("Creating Repository View:  " + repositoryView.getName() + " with schema " + repositoryView.getSchemas());
       return new ApiResponse(SUCCESS, repositoryViewRepo.create(repositoryView));

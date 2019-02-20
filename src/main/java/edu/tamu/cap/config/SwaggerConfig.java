@@ -20,21 +20,44 @@ public class SwaggerConfig {
   private static final String USER = "/user/**";
   private static final String REPOSITORY_VIEW_TYPE_VERIFY = "/repository-view/{type}/verify/**";
   private static final String REPOSITORY_VIEW = "/repository-view/**";
+  private static final String REPOSITORY_VIEW_CONTEXT = "/repository-view-context/**";
   private static final String SCHEMA = "/schema/**";
 
   @Bean
-  public Docket api() {
-    return new Docket(DocumentationType.SPRING_WEB).select().apis(RequestHandlerSelectors.any()).paths(paths()).build();
-
+  public Docket repositoryViewApi() {
+    return new Docket(DocumentationType.SPRING_WEB)
+      .groupName("Repository View API")
+      .select()
+      .apis(RequestHandlerSelectors.any())
+      .paths( or(
+        PathSelectors.ant(REPOSITORY_VIEW), 
+        PathSelectors.ant(REPOSITORY_VIEW_TYPE_VERIFY)
+      ))
+      .build()
+      .useDefaultResponseMessages(false);
   }
 
-  private Predicate<String> paths() {
-    return or(
-        PathSelectors.ant(REPOSITORY_VIEW), 
-        PathSelectors.ant(SCHEMA),
-        PathSelectors.ant(REPOSITORY_VIEW_TYPE_VERIFY), 
-        PathSelectors.ant(USER)
-      );
-    }
+  @Bean
+  public Docket repositoryViewContextApi() {
+    return new Docket(DocumentationType.SPRING_WEB)
+      .groupName("Repository View Context API")
+      .select()
+      .apis(RequestHandlerSelectors.any())
+      .paths(PathSelectors.ant(REPOSITORY_VIEW_CONTEXT))
+      .build()
+      .useDefaultResponseMessages(false);
+  }
+
+  @Bean
+  public Docket schemaApi() {
+    return new Docket(DocumentationType.SPRING_WEB)
+      .groupName("Schema API")
+      .select()
+      .apis(RequestHandlerSelectors.any())
+      .paths(PathSelectors.ant(SCHEMA))
+      .build()
+      .useDefaultResponseMessages(false);
+
+  }
 
 }

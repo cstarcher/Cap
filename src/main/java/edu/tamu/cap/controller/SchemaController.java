@@ -22,6 +22,7 @@ import edu.tamu.cap.model.repo.SchemaRepo;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/schema")
@@ -35,6 +36,7 @@ public class SchemaController {
     @RequestMapping(method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
+    @ApiOperation(value = "Registers a New Schema with CAP.")
     public ApiResponse createSchema(@RequestBody @WeaverValidatedModel Schema schema) {
         logger.info("Creating schema:  " + schema.getName());
         return new ApiResponse(SUCCESS, schemaRepo.create(schema));
